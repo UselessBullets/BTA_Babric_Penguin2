@@ -1,15 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
-  "version": "${version}",
+  "id": "penguinmod",
+  "version": "1.0.0",
 
-  "name": "Example Mod",
+  "name": "PenguinMod",
   "description": "This mod aims to help new BTA modders.",
   "authors": [
-    "Turnip Labs"
+    "Useless"
   ],
+  "icon": "icon.png",
   "contact": {
-    "homepage": "",
+    "homepage": "https://github.com/UselessBullets?tab=repositories",
     "sources": ""
   },
 
@@ -18,11 +19,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-        "turniplabs.examplemod.ExampleMod"
+        "useless.penguinmod.PenguinMod"
     ]
   },
   "mixins": [
-      "examplemod.mixins.json"
+      "penguinmod.mixins.json"
   ],
 
   "depends": {

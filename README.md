@@ -30,4 +30,4 @@ git clone https://github.com/Turnip-Labs/bta-example-mod.git
 
 6. **Make sure your Client and Server run configurations have `-Dfabric.gameVersion=1.7.7.0` in `VM options`!**
 
-7. Done! Now all that's left is to change every mention of `examplemod` to your own mod id. Happy modding!
+7. Done! Now all that's left is to change every mention of `penguinmod` to your own mod id. Happy modding!
