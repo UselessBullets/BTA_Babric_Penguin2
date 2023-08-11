@@ -15,31 +15,32 @@ public class ModelPenguin extends ModelBase {
     public Cube hair;
 
     public ModelPenguin() {
-        byte byte0 = 16;
+        byte byte0 = 20;
         this.head = new Cube(0, 0);
-        this.head.addBox(-3F, 7F, -3.0F, 6, 5, 6, 0.0F);
-        this.head.setRotationPoint(0,0,0);
+        this.head.addBox(-3.0F, -5.0F, -3.0F, 6, 5, 6, 0.0F);
+        this.head.setRotationPoint(0,-3.0F + byte0,0);
         this.beak = new Cube(0, 23);
-        this.beak.addBox(-1.5F, 7.5F, -4.0F, 3, 1, 2, 0.0F);
-        this.beak.setRotationPoint(0,0,0);
+        this.beak.addBox(-1.5F, -1.5F, -4.0F, 3, 1, 2, 0.0F);
+        this.beak.setRotationPoint(0,-3.0F + byte0,0);
         this.hair = new Cube(30, 0);
-        this.hair.addBox(-3.0F, 12.0F, -3.0F, 6, 2, 6, 0.0F);
-        this.hair.setRotationPoint(0,0,0);
+        this.hair.addBox(-3.0F, -7.0F, -3.0F, 6, 2, 6, 0.0F);
+        this.hair.setRotationPoint(0,-3.0F + byte0,0);
         this.body = new Cube(0, 11);
-        this.body.addBox(-3.0F, 1.0F, -3.0F, 6, 6, 6, 0.0F);
-        this.body.setRotationPoint(0,0,0);
+        this.body.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6, 0.0F);
+        this.body.setRotationPoint(0.0F, 0.0F + byte0, 0.0F);
+        this.body.setRotationAngle(0, (float)Math.toRadians(180), 0);
         this.rightLeg = new Cube(0, 23);
-        this.rightLeg.addBox(-4.0F, 0.0F, -2.0F, 3, 1, 2);
-        this.rightLeg.setRotationPoint(0,0,0);
+        this.rightLeg.addBox(-0.5F, 0.0F, -1.0F, 3, 1, 2);
+        this.rightLeg.setRotationPoint(-1.5F, 3.0F + byte0, -1.0F);
         this.leftLeg = new Cube(0, 23);
-        this.leftLeg.addBox(-4.0F, 0.0F, -2.0F, 3, 1, 2);
-        this.leftLeg.setRotationPoint(0,0,0);
+        this.leftLeg.addBox(-0.5F, 0.0F, -1.0F, 3, 1, 2);
+        this.leftLeg.setRotationPoint(1.5F, 3.0F + byte0, -1.0F);
         this.rightWing = new Cube(54, 0);
-        this.rightWing.addBox(2.5F, 2.0F, -2.0F, 1, 4, 4);
-        this.rightWing.setRotationPoint(0,0,0);
+        this.rightWing.addBox(0.5F, 0.0F, -2.0F, 1, 4, 4);
+        this.rightWing.setRotationPoint(-3.0F-1, -2.0F + byte0, 0.0F);
         this.leftWing = new Cube(54, 0);
-        this.leftWing.addBox(-3.5F, 2.0F, -2.0F, 1, 4, 4);
-        this.leftWing.setRotationPoint(4.0F, (float)(-3 + byte0), 0.0F);
+        this.leftWing.addBox(0.5F, 0.0F, -2.0F, 1, 4, 4);
+        this.leftWing.setRotationPoint(3.0F-1, -2.0F + byte0, 0.0F);
     }
 
     public void render(float limbSwing, float limbYaw, float ticksExisted, float headYaw, float headPitch, float scale) {

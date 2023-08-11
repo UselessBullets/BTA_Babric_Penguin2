@@ -14,7 +14,7 @@ public class EntityPenguin extends EntityChicken {
         super(world);
         this.skinName = "penguin";
         this.highestSkinVariant = -1;
-        this.setSize(0.9F, 1.3F);
+        this.setSize(8f/16f, 14f/16f);
     }
 
     public String getEntityTexture() {return "/assets/penguinmod/entity/penguin/penguin2.png";}

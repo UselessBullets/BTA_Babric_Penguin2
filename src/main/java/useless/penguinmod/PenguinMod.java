@@ -19,7 +19,7 @@ public class PenguinMod implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("PenguinMod initialization started.");
-        EntityHelper.createEntity(EntityPenguin.class, new ChickenRenderer(new ModelPenguin(), 1.3F), 200, "Penguin");
+        EntityHelper.createEntity(EntityPenguin.class, new ChickenRenderer(new ModelPenguin(), .25F), 200, "Penguin");
         LOGGER.info("PenguinMod initialized.");
     }
 }
