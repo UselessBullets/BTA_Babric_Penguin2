@@ -1,13 +1,12 @@
 package useless.penguinmod;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.render.entity.CreeperRenderer;
-import net.minecraft.core.entity.monster.EntityCreeper;
-import net.minecraft.core.item.Item;
+import net.minecraft.client.render.model.ModelCow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.EntityHelper;
+import useless.penguinmod.entity.EntityPenguin;
+import useless.penguinmod.model.PenguinRenderer;
 
 
 public class PenguinMod implements ModInitializer {
@@ -17,8 +16,7 @@ public class PenguinMod implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("PenguinMod initialization started.");
-        //HalpLibe.LOGGER.info("test");
-        EntityHelper.createEntity(EntityCreeper.class, new CreeperRenderer(), 200, "Penguin");
+        EntityHelper.createEntity(EntityPenguin.class, new PenguinRenderer(new ModelCow(), 1.3F), 200, "Penguin");
         LOGGER.info("PenguinMod initialized.");
     }
 }
