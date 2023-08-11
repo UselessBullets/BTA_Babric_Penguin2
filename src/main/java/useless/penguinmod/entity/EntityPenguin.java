@@ -9,12 +9,17 @@ import net.minecraft.core.item.ItemBucketEmpty;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.world.World;
 
-public class EntityPenguin extends EntityAnimal {
+public class EntityPenguin extends EntityChicken {
     public EntityPenguin(World world) {
         super(world);
-        this.skinName = "cow";
-        this.highestSkinVariant = 3;
+        this.skinName = "penguin";
+        this.highestSkinVariant = -1;
         this.setSize(0.9F, 1.3F);
+    }
+
+    public String getEntityTexture() {return "/assets/penguinmod/entity/penguin/penguin2.png";}
+    public String getDefaultEntityTexture() {
+        return "/assets/penguinmod/entity/penguin/penguin2.png";
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {

@@ -1,55 +1,70 @@
 package useless.penguinmod.model;
 
 import net.minecraft.client.render.model.Cube;
-import net.minecraft.client.render.model.ModelQuadruped;
+import net.minecraft.client.render.model.ModelBase;
+import net.minecraft.core.util.helper.MathHelper;
 
-public class ModelPenguin extends ModelQuadruped {
-    Cube udders;
-    Cube horn1;
-    Cube horn2;
+public class ModelPenguin extends ModelBase {
+    public Cube head;
+    public Cube body;
+    public Cube rightLeg;
+    public Cube leftLeg;
+    public Cube rightWing;
+    public Cube leftWing;
+    public Cube beak;
+    public Cube hair;
 
     public ModelPenguin() {
-        super(12, 0.0F);
+        byte byte0 = 16;
         this.head = new Cube(0, 0);
-        this.head.addBox(-4.0F, -4.0F, -6.0F, 8, 8, 6, 0.0F);
-        this.head.setRotationPoint(0.0F, 4.0F, -8.0F);
-        this.horn1 = new Cube(22, 0);
-        this.horn1.addBox(-5.0F, -5.0F, -4.0F, 1, 3, 1, 0.0F);
-        this.horn1.setRotationPoint(0.0F, 4.0F, -8.0F);
-        this.horn2 = new Cube(22, 0);
-        this.horn2.addBox(4.0F, -5.0F, -4.0F, 1, 3, 1, 0.0F);
-        this.horn2.setRotationPoint(0.0F, 4.0F, -8.0F);
-        this.udders = new Cube(52, 0);
-        this.udders.addBox(-2.0F, -3.0F, 0.0F, 4, 6, 2, 0.0F);
-        this.udders.setRotationPoint(0.0F, 14.0F, 6.0F);
-        this.udders.rotateAngleX = 1.570796F;
-        this.body = new Cube(18, 4);
-        this.body.addBox(-6.0F, -10.0F, -7.0F, 12, 18, 10, 0.0F);
-        this.body.setRotationPoint(0.0F, 5.0F, 2.0F);
-        --this.leg1.rotationPointX;
-        ++this.leg2.rotationPointX;
-        Cube var10000 = this.leg1;
-        var10000.rotationPointZ += 0.0F;
-        var10000 = this.leg2;
-        var10000.rotationPointZ += 0.0F;
-        --this.leg3.rotationPointX;
-        ++this.leg4.rotationPointX;
-        --this.leg3.rotationPointZ;
-        --this.leg4.rotationPointZ;
+        this.head.addBox(-3F, 7F, -3.0F, 6, 5, 6, 0.0F);
+        this.head.setRotationPoint(0,0,0);
+        this.beak = new Cube(0, 23);
+        this.beak.addBox(-1.5F, 7.5F, -4.0F, 3, 1, 2, 0.0F);
+        this.beak.setRotationPoint(0,0,0);
+        this.hair = new Cube(30, 0);
+        this.hair.addBox(-3.0F, 12.0F, -3.0F, 6, 2, 6, 0.0F);
+        this.hair.setRotationPoint(0,0,0);
+        this.body = new Cube(0, 11);
+        this.body.addBox(-3.0F, 1.0F, -3.0F, 6, 6, 6, 0.0F);
+        this.body.setRotationPoint(0,0,0);
+        this.rightLeg = new Cube(0, 23);
+        this.rightLeg.addBox(-4.0F, 0.0F, -2.0F, 3, 1, 2);
+        this.rightLeg.setRotationPoint(0,0,0);
+        this.leftLeg = new Cube(0, 23);
+        this.leftLeg.addBox(-4.0F, 0.0F, -2.0F, 3, 1, 2);
+        this.leftLeg.setRotationPoint(0,0,0);
+        this.rightWing = new Cube(54, 0);
+        this.rightWing.addBox(2.5F, 2.0F, -2.0F, 1, 4, 4);
+        this.rightWing.setRotationPoint(0,0,0);
+        this.leftWing = new Cube(54, 0);
+        this.leftWing.addBox(-3.5F, 2.0F, -2.0F, 1, 4, 4);
+        this.leftWing.setRotationPoint(4.0F, (float)(-3 + byte0), 0.0F);
     }
 
     public void render(float limbSwing, float limbYaw, float ticksExisted, float headYaw, float headPitch, float scale) {
-        super.render(limbSwing, limbYaw, ticksExisted, headYaw, headPitch, scale);
-        this.horn1.render(scale);
-        this.horn2.render(scale);
-        this.udders.render(scale);
+        this.setRotationAngles(limbSwing, limbYaw, ticksExisted, headYaw, headPitch, scale);
+        this.head.render(scale);
+        this.beak.render(scale);
+        this.hair.render(scale);
+        this.body.render(scale);
+        this.rightLeg.render(scale);
+        this.leftLeg.render(scale);
+        this.rightWing.render(scale);
+        this.leftWing.render(scale);
     }
 
     public void setRotationAngles(float limbSwing, float limbYaw, float ticksExisted, float headYaw, float headPitch, float scale) {
-        super.setRotationAngles(limbSwing, limbYaw, ticksExisted, headYaw, headPitch, scale);
-        this.horn1.rotateAngleY = this.head.rotateAngleY;
-        this.horn1.rotateAngleX = this.head.rotateAngleX;
-        this.horn2.rotateAngleY = this.head.rotateAngleY;
-        this.horn2.rotateAngleX = this.head.rotateAngleX;
+        this.head.rotateAngleX = -(headPitch / 57.29578F);
+        this.head.rotateAngleY = headYaw / 57.29578F;
+        this.beak.rotateAngleX = this.head.rotateAngleX;
+        this.beak.rotateAngleY = this.head.rotateAngleY;
+        this.hair.rotateAngleX = this.head.rotateAngleX;
+        this.hair.rotateAngleY = this.head.rotateAngleY;
+        this.body.rotateAngleX = 1.570796F;
+        this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
+        this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 3.141593F) * 1.4F * limbYaw;
+        this.rightWing.rotateAngleZ = ticksExisted;
+        this.leftWing.rotateAngleZ = -ticksExisted;
     }
 }
