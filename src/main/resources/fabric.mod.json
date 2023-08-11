@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-        "useless.penguinmod.PenguinMod"
+      "useless.penguinmod.PenguinMod"
     ]
   },
   "mixins": [
