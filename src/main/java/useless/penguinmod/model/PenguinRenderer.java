@@ -2,6 +2,8 @@ package useless.penguinmod.model;
 
 import net.minecraft.client.render.entity.*;
 import net.minecraft.client.render.model.ModelBase;
+import net.minecraft.core.util.helper.MathHelper;
+import useless.penguinmod.PenguinMod;
 import useless.penguinmod.entity.EntityPenguin;
 
 public class PenguinRenderer extends LivingRenderer<EntityPenguin> {
@@ -19,5 +21,15 @@ public class PenguinRenderer extends LivingRenderer<EntityPenguin> {
 
     public void doRender(EntityPenguin entity, double x, double y, double z, float yaw, float renderPartialTicks) {
         this.renderCow(entity, x, y, z, yaw, renderPartialTicks);
+    }
+    protected float getWingRotation(EntityPenguin entity, float ticksPassed) {
+        float flappingProgress = entity.oldFlapAngle + (entity.flapAngle - entity.oldFlapAngle) * ticksPassed;
+        float rotationMagnitude = entity.oldDestPos + (entity.destPos - entity.oldDestPos) * ticksPassed;
+        return (MathHelper.sin(flappingProgress) + 1.0F) * rotationMagnitude;
+
+    }
+
+    protected float ticksExisted(EntityPenguin entity, float renderPartialTicks) {
+        return this.getWingRotation(entity, renderPartialTicks);
     }
 }
