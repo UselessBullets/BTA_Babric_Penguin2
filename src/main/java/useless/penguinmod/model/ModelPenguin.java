@@ -19,7 +19,7 @@ public class ModelPenguin extends ModelBase {
         this.head = new Cube(0, 0);
         this.head.addBox(-3.0F, -5.0F, -3.0F, 6, 5, 6, 0.0F);
         this.head.setRotationPoint(0,-3.0F + byte0,0);
-        this.beak = new Cube(0, 23);
+        this.beak = new Cube(0, 26);
         this.beak.addBox(-1.5F, -1.5F, -4.0F, 3, 1, 2, 0.0F);
         this.beak.setRotationPoint(0,-3.0F + byte0,0);
         this.hair = new Cube(30, 0);
@@ -28,19 +28,20 @@ public class ModelPenguin extends ModelBase {
         this.body = new Cube(0, 11);
         this.body.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6, 0.0F);
         this.body.setRotationPoint(0.0F, 0.0F + byte0, 0.0F);
-        this.body.setRotationAngle(0, (float)Math.toRadians(180), 0);
+        //this.body.setRotationAngle( (float)Math.toRadians(-90), 0, 0);
         this.rightLeg = new Cube(0, 23);
         this.rightLeg.addBox(-0.5F, 0.0F, -1.0F, 3, 1, 2);
         this.rightLeg.setRotationPoint(-1.5F, 3.0F + byte0, -1.0F);
+        this.rightLeg.setRotationAngle(0, (float)Math.toRadians(180), 0);
         this.leftLeg = new Cube(0, 23);
         this.leftLeg.addBox(-0.5F, 0.0F, -1.0F, 3, 1, 2);
         this.leftLeg.setRotationPoint(1.5F, 3.0F + byte0, -1.0F);
         this.rightWing = new Cube(54, 0);
-        this.rightWing.addBox(0.5F, 0.0F, -2.0F, 1, 4, 4);
-        this.rightWing.setRotationPoint(-3.0F-1, -2.0F + byte0, 0.0F);
+        this.rightWing.addBox(-0.5F, 0.0F, -2.0F, 1, 4, 4);
+        this.rightWing.setRotationPoint(-3.0F, -2.0F + byte0, 0.0F);
         this.leftWing = new Cube(54, 0);
-        this.leftWing.addBox(0.5F, 0.0F, -2.0F, 1, 4, 4);
-        this.leftWing.setRotationPoint(3.0F-1, -2.0F + byte0, 0.0F);
+        this.leftWing.addBox(-0.5F, 0.0F, -2.0F, 1, 4, 4);
+        this.leftWing.setRotationPoint(3.0F, -2.0F + byte0, 0.0F);
     }
 
     public void render(float limbSwing, float limbYaw, float ticksExisted, float headYaw, float headPitch, float scale) {
@@ -62,10 +63,10 @@ public class ModelPenguin extends ModelBase {
         this.beak.rotateAngleY = this.head.rotateAngleY;
         this.hair.rotateAngleX = this.head.rotateAngleX;
         this.hair.rotateAngleY = this.head.rotateAngleY;
-        this.body.rotateAngleX = 1.570796F;
-        this.rightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
-        this.leftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 3.141593F) * 1.4F * limbYaw;
-        this.rightWing.rotateAngleZ = ticksExisted;
-        this.leftWing.rotateAngleZ = -ticksExisted;
+        //this.body.rotateAngleX = 1.570796F;
+        this.rightLeg.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
+        this.leftLeg.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
+        this.rightWing.rotateAngleZ = ticksExisted + (float) Math.toRadians(10F);
+        this.leftWing.rotateAngleZ = -ticksExisted - (float) Math.toRadians(10F);
     }
 }

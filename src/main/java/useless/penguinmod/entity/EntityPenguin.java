@@ -19,7 +19,7 @@ public class EntityPenguin extends EntityChicken {
 
     public String getEntityTexture() {return "/assets/penguinmod/entity/penguin/penguin2.png";}
     public String getDefaultEntityTexture() {
-        return "/assets/penguinmod/entity/penguin/penguin2.png";
+        return "/assets/penguinmod/entity/penguin/penguin3.png";
     }
 
     public void addAdditionalSaveData(CompoundTag tag) {
