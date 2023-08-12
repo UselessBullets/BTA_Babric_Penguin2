@@ -13,6 +13,13 @@ import useless.penguinmod.model.PenguinRenderer;
 
 
 public class PenguinMod implements ModInitializer {
+    static {
+        //this is here to possibly fix some class loading issues, do not delete
+        try {
+            Class.forName("net.minecraft.core.block.Block");
+            Class.forName("net.minecraft.core.item.Item");
+        } catch (ClassNotFoundException ignored) {}
+    }
     public static final String MOD_ID = "penguinmod";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     
