@@ -1,6 +1,8 @@
 package useless.penguinmod.entity;
 
+import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.Item;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.world.World;
 
 public class EntityPenguin extends EntityPet {
@@ -9,6 +11,8 @@ public class EntityPenguin extends EntityPet {
     public float oldDestPos;
     public float oldFlapAngle = 0.0F;
     public float flapRate = 1.0F;
+
+    private boolean sliding = false;
 
     public EntityPenguin(World world) {
         super(world);
@@ -65,5 +69,44 @@ public class EntityPenguin extends EntityPet {
         this.flapAngle += this.flapRate * 2.0F;
     }
 
+    public boolean isSliding(){
+        return sliding;
+    }
+
+    public void setSliding(boolean flag){
+        sliding = flag;
+        if (isSliding()){
+            setSitting(true);
+        }
+
+    }
+
+    public void setSitting(boolean flag) {
+        byte byte0 = this.entityData.getByte(16);
+        if (flag) {
+            this.entityData.set(16, (byte) (byte0 | 1));
+        } else {
+            this.entityData.set(16, (byte) (byte0 & -2));
+        }
+
+    }
+
+    @Override
+    public boolean interact(EntityPlayer entityplayer) {
+        ItemStack itemstack = entityplayer.inventory.getCurrentItem();
+        if (this.isTamed()) {
+            if (itemstack != null && itemstack.itemID == Item.stick.id && !this.isAngry()) {
+                if (!this.world.isClientSide) {
+                    setSliding(!isSliding());
+                    //this.world.sendTrackedEntityStatusUpdatePacket(this, (byte) 7);
+                }
+
+                return true;
+            }
+        }
+        return super.interact(entityplayer);
+
+
+    }
 }
 

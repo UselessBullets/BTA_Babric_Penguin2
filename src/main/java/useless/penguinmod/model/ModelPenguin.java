@@ -16,6 +16,8 @@ public class ModelPenguin extends ModelBase {
     public Cube beak;
     public Cube hair;
 
+    public EntityPenguin penguinRef;
+
     public ModelPenguin() {
 
         this.head = new Cube(0, 0);
@@ -132,12 +134,14 @@ public class ModelPenguin extends ModelBase {
     }
 
     public void setLivingAnimations(EntityLiving entityliving, float limbSwing, float limbYaw, float renderPartialTicks) {
-        EntityPenguin penguin = (EntityPenguin) entityliving;
+        penguinRef = (EntityPenguin) entityliving;
 
-        if (penguin.isWolfSitting()){
+        if (penguinRef.isSliding()){
             animationSliding();
         }
-        else {
+        else if (penguinRef.isSitting()) {
+            animationSitting();
+        } else {
             animationStandard();
         }
 
@@ -155,16 +159,21 @@ public class ModelPenguin extends ModelBase {
     }
 
     public void setRotationAngles(float limbSwing, float limbYaw, float ticksExisted, float headYaw, float headPitch, float scale) {
-        //this.head.rotateAngleX = -(headPitch / 57.29578F);
-        //this.head.rotateAngleY = headYaw / 57.29578F;
+        if (!penguinRef.isSliding()){
+            this.head.rotateAngleX = (float)-Math.toRadians(headPitch);
+            this.head.rotateAngleY = (float)Math.toRadians(headYaw);
+            this.rightLeg.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
+            this.leftLeg.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
+            this.rightWing.rotateAngleZ = ticksExisted + (float) Math.toRadians(10F);
+            this.leftWing.rotateAngleZ = -ticksExisted - (float) Math.toRadians(10F);
+        }
+        else {
+            this.head.rotateAngleX = (float)-Math.toRadians(headPitch/2D);
+            this.head.rotateAngleY = (float)Math.toRadians(headYaw/1.5D);
+        }
         this.beak.rotateAngleX = this.head.rotateAngleX;
         this.beak.rotateAngleY = this.head.rotateAngleY;
         this.hair.rotateAngleX = this.head.rotateAngleX;
         this.hair.rotateAngleY = this.head.rotateAngleY;
-        //this.body.rotateAngleX = 1.570796F;
-        //this.rightLeg.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
-        //this.leftLeg.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbYaw;
-        //this.rightWing.rotateAngleZ = ticksExisted + (float) Math.toRadians(10F);
-        //this.leftWing.rotateAngleZ = -ticksExisted - (float) Math.toRadians(10F);
     }
 }

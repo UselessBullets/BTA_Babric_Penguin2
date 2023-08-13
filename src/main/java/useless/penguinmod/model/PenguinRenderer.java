@@ -3,7 +3,6 @@ package useless.penguinmod.model;
 import net.minecraft.client.render.entity.*;
 import net.minecraft.client.render.model.ModelBase;
 import net.minecraft.core.util.helper.MathHelper;
-import useless.penguinmod.PenguinMod;
 import useless.penguinmod.entity.EntityPenguin;
 
 public class PenguinRenderer extends LivingRenderer<EntityPenguin> {
@@ -11,16 +10,16 @@ public class PenguinRenderer extends LivingRenderer<EntityPenguin> {
         super(modelbase, f);
     }
 
-    public void renderCow(EntityPenguin entity, double d, double d1, double d2, float f, float f1) {
+    public void renderPenguin(EntityPenguin entity, double d, double d1, double d2, float f, float f1) {
         super.doRenderLiving(entity, d, d1, d2, f, f1);
     }
 
     public void doRenderLiving(EntityPenguin entity, double x, double y, double z, float yaw, float renderPartialTicks) {
-        this.renderCow(entity, x, y, z, yaw, renderPartialTicks);
+        this.renderPenguin(entity, x, y, z, yaw, renderPartialTicks);
     }
 
     public void doRender(EntityPenguin entity, double x, double y, double z, float yaw, float renderPartialTicks) {
-        this.renderCow(entity, x, y, z, yaw, renderPartialTicks);
+        this.renderPenguin(entity, x, y, z, yaw, renderPartialTicks);
     }
     protected float getWingRotation(EntityPenguin entity, float ticksPassed) {
         float flappingProgress = entity.oldFlapAngle + (entity.flapAngle - entity.oldFlapAngle) * ticksPassed;

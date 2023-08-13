@@ -5,8 +5,6 @@ import net.minecraft.core.entity.Entity;
 import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.entity.EntityLiving;
 import net.minecraft.core.entity.animal.EntityAnimal;
-import net.minecraft.core.entity.animal.EntitySheep;
-import net.minecraft.core.entity.animal.EntityWolf;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.entity.projectile.EntityArrow;
 import net.minecraft.core.item.Item;
@@ -18,7 +16,6 @@ import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.pathfinder.Path;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,31 +37,31 @@ public class EntityPet extends EntityAnimal {
     }
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putBoolean("Angry", this.isWolfAngry());
-        tag.putBoolean("Sitting", this.isWolfSitting());
+        tag.putBoolean("Angry", this.isAngry());
+        tag.putBoolean("Sitting", this.isSitting());
 
-        if (this.getWolfOwner() == null) {
+        if (this.getOwner() == null) {
             tag.putString("Owner", "");
         } else {
-            tag.putString("Owner", this.getWolfOwner());
+            tag.putString("Owner", this.getOwner());
         }
 
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.setWolfAngry(tag.getBoolean("Angry"));
-        this.setWolfSitting(tag.getBoolean("Sitting"));
+        this.setAngry(tag.getBoolean("Angry"));
+        this.setSitting(tag.getBoolean("Sitting"));
         String s = tag.getString("Owner");
         if (s.length() > 0) {
-            this.setWolfOwner(s);
-            this.setWolfTamed(true);
+            this.setOwner(s);
+            this.setTamed(true);
         }
 
     }
 
     protected boolean canDespawn() {
-        return !this.isWolfTamed();
+        return !this.isTamed();
     }
 
     protected int getDropItemId() {
@@ -75,7 +72,7 @@ public class EntityPet extends EntityAnimal {
         super.updatePlayerActionState();
 
         if (this.isInWater()) {
-            this.setWolfSitting(false);
+            this.setSitting(false);
         }
 
         if (!this.world.isClientSide) {
@@ -87,13 +84,13 @@ public class EntityPet extends EntityAnimal {
     public void onLivingUpdate() {
         super.onLivingUpdate();
         this.looksWithInterest = false;
-        if (this.hasCurrentTarget() && !this.hasPath() && !this.isWolfAngry()) {
+        if (this.hasCurrentTarget() && !this.hasPath() && !this.isAngry()) {
             Entity entity = this.getCurrentTarget();
             if (entity instanceof EntityPlayer) {
                 EntityPlayer entityplayer = (EntityPlayer) entity;
                 ItemStack itemstack = entityplayer.inventory.getCurrentItem();
                 if (itemstack != null) {
-                    if (!this.isWolfTamed() && itemstack.itemID == tameItemID) {
+                    if (!this.isTamed() && itemstack.itemID == tameItemID) {
                         this.looksWithInterest = true;
                     }
                 }
@@ -125,7 +122,7 @@ public class EntityPet extends EntityAnimal {
     }
 
     protected int func_25026_x() {
-        return this.isWolfSitting() ? 20 : super.func_25026_x();
+        return this.isSitting() ? 20 : super.func_25026_x();
     }
 
     private void getPathOrWalkableBlock(Entity entity, float f) {
@@ -150,11 +147,11 @@ public class EntityPet extends EntityAnimal {
     }
 
     protected boolean isMovementCeased() {
-        return this.isWolfSitting();
+        return this.isSitting();
     }
 
     public boolean hurt(Entity entity, int i, DamageType type) {
-        this.setWolfSitting(false);
+        this.setSitting(false);
         if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)) {
             i = (i + 1) / 2;
         }
@@ -162,9 +159,9 @@ public class EntityPet extends EntityAnimal {
         if (!super.hurt((Entity) entity, i, type)) {
             return false;
         } else {
-            if (!this.isWolfTamed() && !this.isWolfAngry()) {
+            if (!this.isTamed() && !this.isAngry()) {
                 if (entity instanceof EntityPlayer) {
-                    this.setWolfAngry(true);
+                    this.setAngry(true);
                     this.entityToAttack = (Entity) entity;
                 }
 
@@ -178,17 +175,17 @@ public class EntityPet extends EntityAnimal {
 
                     while (iterator.hasNext()) {
                         Entity entity1 = (Entity) iterator.next();
-                        EntityPet entitywolf = (EntityPet) entity1;
-                        if (!entitywolf.isWolfTamed() && entitywolf.entityToAttack == null) {
-                            entitywolf.entityToAttack = (Entity) entity;
+                        EntityPet entitypet = (EntityPet) entity1;
+                        if (!entitypet.isTamed() && entitypet.entityToAttack == null) {
+                            entitypet.entityToAttack = (Entity) entity;
                             if (entity instanceof EntityPlayer) {
-                                entitywolf.setWolfAngry(true);
+                                entitypet.setAngry(true);
                             }
                         }
                     }
                 }
             } else if (entity != this && entity != null) {
-                if (this.isWolfTamed() && entity instanceof EntityPlayer && ((EntityPlayer) entity).username.equalsIgnoreCase(this.getWolfOwner())) {
+                if (this.isTamed() && entity instanceof EntityPlayer && ((EntityPlayer) entity).username.equalsIgnoreCase(this.getOwner())) {
                     return true;
                 }
 
@@ -199,7 +196,7 @@ public class EntityPet extends EntityAnimal {
         }
     }
     protected Entity findPlayerToAttack() {
-        return this.isWolfAngry() ? this.world.getClosestPlayerToEntity(this, 16.0) : null;
+        return this.isAngry() ? this.world.getClosestPlayerToEntity(this, 16.0) : null;
     }
 
     protected void attackEntity(Entity entity, float distance) {
@@ -216,7 +213,7 @@ public class EntityPet extends EntityAnimal {
             } else if ((double) distance < 1.5 && entity.bb.maxY > this.bb.minY && entity.bb.minY < this.bb.maxY) {
                 this.attackTime = 20;
                 byte byte0 = 2;
-                if (this.isWolfTamed()) {
+                if (this.isTamed()) {
                     byte0 = 4;
                 }
 
@@ -243,8 +240,8 @@ public class EntityPet extends EntityAnimal {
             return true;
         } else {
             ItemStack itemstack = entityplayer.inventory.getCurrentItem();
-            if (!this.isWolfTamed()) {
-                if (itemstack != null && itemstack.itemID == tameItemID && !this.isWolfAngry()) {
+            if (!this.isTamed()) {
+                if (itemstack != null && itemstack.itemID == tameItemID && !this.isAngry()) {
                     itemstack.consumeItem(entityplayer);
                     if (itemstack.stackSize <= 0) {
                         entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, (ItemStack) null);
@@ -252,11 +249,11 @@ public class EntityPet extends EntityAnimal {
 
                     if (!this.world.isClientSide) {
                         if (this.random.nextInt(3) == 0) {
-                            this.setWolfTamed(true);
+                            this.setTamed(true);
                             this.setPathToEntity((Path) null);
-                            this.setWolfSitting(true);
+                            this.setSitting(true);
                             this.health = 20;
-                            this.setWolfOwner(entityplayer.username);
+                            this.setOwner(entityplayer.username);
                             this.showHeartsOrSmokeFX(true);
                             this.world.sendTrackedEntityStatusUpdatePacket(this, (byte) 7);
                         } else {
@@ -283,9 +280,9 @@ public class EntityPet extends EntityAnimal {
                     }
                 }
 
-                if (entityplayer.username.equalsIgnoreCase(this.getWolfOwner())) {
+                if (entityplayer.username.equalsIgnoreCase(this.getOwner())) {
                     if (!this.world.isClientSide) {
-                            this.setWolfSitting(!this.isWolfSitting());
+                            this.setSitting(!this.isSitting());
                             this.isJumping = false;
                             this.setPathToEntity((Path) null);
 
@@ -324,10 +321,10 @@ public class EntityPet extends EntityAnimal {
     }
 
     public float setTailRotation() {
-        if (this.isWolfAngry()) {
+        if (this.isAngry()) {
             return 1.53938F;
         } else {
-            return this.isWolfTamed() ? (0.55F - (float) (20 - this.entityData.getInt(18)) * 0.02F) * 3.141593F : 0.6283185F;
+            return this.isTamed() ? (0.55F - (float) (20 - this.entityData.getInt(18)) * 0.02F) * 3.141593F : 0.6283185F;
         }
     }
 
@@ -335,19 +332,19 @@ public class EntityPet extends EntityAnimal {
         return 8;
     }
 
-    public String getWolfOwner() {
+    public String getOwner() {
         return this.entityData.getString(17);
     }
 
-    public void setWolfOwner(String s) {
+    public void setOwner(String s) {
         this.entityData.set(17, s);
     }
 
-    public boolean isWolfSitting() {
+    public boolean isSitting() {
         return (this.entityData.getByte(16) & 1) != 0;
     }
 
-    public void setWolfSitting(boolean flag) {
+    public void setSitting(boolean flag) {
         byte byte0 = this.entityData.getByte(16);
         if (flag) {
             this.entityData.set(16, (byte) (byte0 | 1));
@@ -357,11 +354,11 @@ public class EntityPet extends EntityAnimal {
 
     }
 
-    public boolean isWolfAngry() {
+    public boolean isAngry() {
         return (this.entityData.getByte(16) & 2) != 0;
     }
 
-    public void setWolfAngry(boolean flag) {
+    public void setAngry(boolean flag) {
         byte byte0 = this.entityData.getByte(16);
         if (flag) {
             this.entityData.set(16, (byte) (byte0 | 2));
@@ -371,11 +368,11 @@ public class EntityPet extends EntityAnimal {
 
     }
 
-    public boolean isWolfTamed() {
+    public boolean isTamed() {
         return (this.entityData.getByte(16) & 4) != 0;
     }
 
-    public void setWolfTamed(boolean flag) {
+    public void setTamed(boolean flag) {
         byte byte0 = this.entityData.getByte(16);
         if (flag) {
             this.entityData.set(16, (byte) (byte0 | 4));
